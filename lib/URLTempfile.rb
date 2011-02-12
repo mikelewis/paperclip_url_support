@@ -24,11 +24,11 @@ class URLTempfile < Tempfile
       openssl_verify_peer = OpenSSL::SSL::VERIFY_NONE
       
       super('urlupload')
-      Kernel.open(url) do |file|
+      Kernel.open(url ) do |file|
         @content_type = file.content_type
         raise "Unable to determine MIME type for URL uploaded file." unless content_type
       
-        self.write file.read
+        self.write file.read.force_encoding("UTF-8")
         self.flush
       end
     ensure
